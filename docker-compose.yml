@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  app:
+    # Nom du conteneur
+    container_name: waze_maritime_app
+    
+    # Construire l'image à partir du Dockerfile local
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Passer le jeton Mapbox au moment du "build"
+        NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN: ${NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
+    
+    # Mapper le port 3000 de l'hôte au port 3000 du conteneur
+    ports:
+      - "3000:3000"
+      
+    # Charger les variables d'environnement depuis un fichier .env
+    env_file:
+      - .env
+      
+    # Redémarrer automatiquement le conteneur s'il plante
+    restart: unless-stopped
