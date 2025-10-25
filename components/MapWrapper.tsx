@@ -2,7 +2,7 @@ import Map from "./Map"
 
 const MapWrapper = () => {
   return (
-    <div className=" rounded-4xl m-4">
+    <div className="">
         <Map />
     </div>
   )
