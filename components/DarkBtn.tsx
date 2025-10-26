@@ -9,11 +9,9 @@ const DarkBtn = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
   return (
-    <div>
-      <div className="flex fixed top-2 right-2">
         <div
           onClick={toggleTheme}
-          className="p-2 border rounded-md bg-neutral-50 dark:bg-neutral-950 hover:bg-neutral-200 dark:hover:bg-neutral-900 cursor-pointer"
+          className="flex fixed top-2 right-2 p-2 border rounded-md shadow-md bg-neutral-50 dark:bg-neutral-950 hover:bg-neutral-200 dark:hover:bg-neutral-900 cursor-pointer"
         >
           {theme === "dark" ? (
             <Sun className="w-4 h-4 text-white opacity-100 transition-all duration-1000" />
@@ -21,8 +19,6 @@ const DarkBtn = () => {
             <Moon className="w-4 h-4 text-black transition-discrete transition-all duration-1000" />
           )}
         </div>
-      </div>
-    </div>
   );
 };
 

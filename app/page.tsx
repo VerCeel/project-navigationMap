@@ -1,23 +1,20 @@
-'use client'
+"use client";
 
 import DarkBtn from "@/components/DarkBtn";
 import MapWrapper from "@/components/MapWrapper";
-import SideMenu from "@/components/SideMenu";
+import { SearchBar } from "@/components/sideMenu/SearchBar";
+import { SideMenuBtn } from "@/components/sideMenu/SideMenuBtn";
+
 
 export default function Home() {
   return (
     <div className="relative w-screen h-screen">
       <MapWrapper />
-      <DarkBtn />   
-      <SideMenu selectedShip={""} setSelectedShip={function (ship: string): void {
-        throw new Error("Function not implemented.");
-      } } startDate={""} setStartDate={function (date: string): void {
-        throw new Error("Function not implemented.");
-      } } endDate={""} setEndDate={function (date: string): void {
-        throw new Error("Function not implemented.");
-      } } selectedVariable={""} setSelectedVariable={function (variable: string): void {
-        throw new Error("Function not implemented.");
-      } } minValue={null} maxValue={null} />
+      <DarkBtn />
+      <div className="absolute flex gap-2 top-2 left-2 z-50">
+        <SideMenuBtn />
+        <SearchBar />
+      </div>
     </div>
   );
 }

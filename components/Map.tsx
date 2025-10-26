@@ -27,13 +27,12 @@ export default function Map() {
 
   const [lng, setLng] = useState(2.3522);
   const [lat, setLat] = useState(48.8566);
-  const [zoom, setZoom] = useState(4); // Zoom initial plus large
+  const [zoom, setZoom] = useState(4); 
 
   
   const addDataToMap = useCallback((mapInstance: mapboxgl.Map) => {
     console.log("Ajout des données sur la carte...");
 
-    // Nettoyage préventif des anciennes couches/sources
     if (mapInstance.getLayer("route-layer")) {
       mapInstance.removeLayer("route-layer");
     }
@@ -135,17 +134,17 @@ export default function Map() {
     try {
       const initialStyle = theme === "dark" ? darkMapStyle : lightMapStyle;
       mapInstance = new mapboxgl.Map({
-        container: mapContainer.current, // Utiliser la ref
+        container: mapContainer.current, 
         style: initialStyle,
-        center: [lng, lat], // Centre initial (sera ajusté)
-        zoom: zoom,        // Zoom initial (sera ajusté)
+        center: [lng, lat],
+        zoom: zoom,
         attributionControl: false,
       });
-      map.current = mapInstance; // Assigner à la ref après création réussie
+      map.current = mapInstance;
 
       mapInstance.once("load", () => {
         console.log('Événement "load" initial : La carte est prête !');
-        // Vérifier à nouveau map.current au cas où le composant serait démonté rapidement
+
         if (map.current) {
           addDataToMap(map.current);
         }
@@ -155,21 +154,18 @@ export default function Map() {
       console.error("Erreur lors de l'initialisation de Mapbox:", error);
     }
 
-    // Fonction de nettoyage
     return () => {
       console.log("Nettoyage de la carte...");
-      mapInstance?.remove(); // Utiliser la variable locale pour le nettoyage
-      map.current = null; // Important de réinitialiser la ref
+      mapInstance?.remove();
+      map.current = null;
     };
 
-    // Les dépendances : theme (pour le style initial) et les valeurs initiales utilisées
-    // addDataToMap n'est pas nécessaire ici car elle est stable (useCallback avec dépendances vides)
   }, [theme, lng, lat, zoom]);
 
 
-  // --- Effet pour gérer le changement de thème ---
+
   useEffect(() => {
-    // Ne rien faire si la carte n'est pas encore initialisée
+
     if (!map.current) {
         console.log("Changement de thème ignoré: carte non prête.");
         return;
@@ -178,22 +174,17 @@ export default function Map() {
     console.log(`Changement de thème vers : ${theme}`);
     const newStyle = theme === "dark" ? darkMapStyle : lightMapStyle;
 
-    // Éviter de recharger le style s'il est déjà le bon (optimisation mineure)
-    // Note: getStyle().url n'existe pas toujours, vérifier avec précaution ou omettre ce check
-    // if (map.current.getStyle().?) { ... }
-
     map.current.setStyle(newStyle);
 
-    // Ré-ajouter les données après le chargement du nouveau style
     map.current.once("load", () => {
       console.log("Nouveau style chargé, ré-ajout des données.");
-      // Vérifier à nouveau car l'état peut changer pendant le chargement asynchrone
+
       if (map.current) {
         addDataToMap(map.current);
       }
     });
 
-  }, [theme, addDataToMap]); // Dépend de theme et addDataToMap
+  }, [theme, addDataToMap]);
 
   return (
     <div>
