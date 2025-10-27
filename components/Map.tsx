@@ -4,13 +4,13 @@ import { useRef, useEffect, useState, useCallback } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useTheme } from "next-themes";
-import shipData from './data/shipNavigationData.json'; 
-
+import shipData from "./data/shipNavigationData.json";
+import { Spinner } from "./ui/spinner";
 
 interface ShipPoint {
-    lat: number;
-    lon: number;
-    speed: number;
+  lat: number;
+  lon: number;
+  speed: number;
 }
 
 const typedShipData: ShipPoint[] = shipData;
@@ -27,9 +27,8 @@ export default function Map() {
 
   const [lng, setLng] = useState(2.3522);
   const [lat, setLat] = useState(48.8566);
-  const [zoom, setZoom] = useState(4); 
+  const [zoom, setZoom] = useState(4);
 
-  
   const addDataToMap = useCallback((mapInstance: mapboxgl.Map) => {
     console.log("Ajout des données sur la carte...");
 
@@ -40,10 +39,10 @@ export default function Map() {
       mapInstance.removeSource("route-source");
     }
     if (mapInstance.getLayer("position-layer")) {
-        mapInstance.removeLayer("position-layer");
+      mapInstance.removeLayer("position-layer");
     }
     if (mapInstance.getSource("position-source")) {
-        mapInstance.removeSource("position-source");
+      mapInstance.removeSource("position-source");
     }
 
     const routeCoordinates = typedShipData.map((point) => [
@@ -52,19 +51,19 @@ export default function Map() {
     ]);
 
     if (routeCoordinates.length === 0) {
-        console.warn("Aucune coordonnée à afficher.");
-        return;
+      console.warn("Aucune coordonnée à afficher.");
+      return;
     }
 
     const lastPosition = routeCoordinates[routeCoordinates.length - 1];
 
     const routeGeoJSON = {
-      type: "Feature" as const, 
+      type: "Feature" as const,
       geometry: {
         type: "LineString" as const,
         coordinates: routeCoordinates,
       },
-      properties: {}
+      properties: {},
     };
     const positionGeoJSON = {
       type: "Feature" as const,
@@ -72,20 +71,19 @@ export default function Map() {
         type: "Point" as const,
         coordinates: lastPosition,
       },
-      properties: {}
+      properties: {},
     };
 
     mapInstance.addSource("route-source", {
       type: "geojson",
-      data: routeGeoJSON, 
+      data: routeGeoJSON,
     });
 
     mapInstance.addSource("position-source", {
       type: "geojson",
-      data: positionGeoJSON, 
+      data: positionGeoJSON,
     });
 
-    // Ajout des couches (layers)
     mapInstance.addLayer({
       id: "route-layer",
       type: "line",
@@ -114,27 +112,27 @@ export default function Map() {
     });
 
     const bounds = new mapboxgl.LngLatBounds(
-        routeCoordinates[0] as mapboxgl.LngLatLike,
-        routeCoordinates[0] as mapboxgl.LngLatLike
+      routeCoordinates[0] as mapboxgl.LngLatLike,
+      routeCoordinates[0] as mapboxgl.LngLatLike
     );
     for (const coord of routeCoordinates) {
       bounds.extend(coord as mapboxgl.LngLatLike);
     }
     mapInstance.fitBounds(bounds, {
-      padding: 50, 
+      padding: 50,
     });
-  }, []); 
+  }, []);
 
   useEffect(() => {
     if (map.current || !mapContainer.current) return;
 
     console.log("Initialisation de la carte...");
-    let mapInstance: mapboxgl.Map | null = null; 
+    let mapInstance: mapboxgl.Map | null = null;
 
     try {
       const initialStyle = theme === "dark" ? darkMapStyle : lightMapStyle;
       mapInstance = new mapboxgl.Map({
-        container: mapContainer.current, 
+        container: mapContainer.current,
         style: initialStyle,
         center: [lng, lat],
         zoom: zoom,
@@ -143,32 +141,28 @@ export default function Map() {
       map.current = mapInstance;
 
       mapInstance.once("load", () => {
-        console.log('Événement "load" initial : La carte est prête !');
+        <div className="flex items-center gap-4">
+          <Spinner />
+        </div>;
 
         if (map.current) {
           addDataToMap(map.current);
         }
       });
-
     } catch (error) {
       console.error("Erreur lors de l'initialisation de Mapbox:", error);
     }
 
     return () => {
-      console.log("Nettoyage de la carte...");
       mapInstance?.remove();
       map.current = null;
     };
-
   }, [theme, lng, lat, zoom]);
 
-
-
   useEffect(() => {
-
     if (!map.current) {
-        console.log("Changement de thème ignoré: carte non prête.");
-        return;
+      console.log("Changement de thème ignoré: carte non prête.");
+      return;
     }
 
     console.log(`Changement de thème vers : ${theme}`);
@@ -177,13 +171,14 @@ export default function Map() {
     map.current.setStyle(newStyle);
 
     map.current.once("load", () => {
-      console.log("Nouveau style chargé, ré-ajout des données.");
+      <div className="flex items-center gap-4">
+        <Spinner />
+      </div>;
 
       if (map.current) {
         addDataToMap(map.current);
       }
     });
-
   }, [theme, addDataToMap]);
 
   return (

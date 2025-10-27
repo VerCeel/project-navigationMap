@@ -10,10 +10,10 @@ import { Menu } from "lucide-react";
 export function SideMenuBtn() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild >
+      <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
-          className="dark:bg-neutral-950 cursor-pointer"
+          className="dark:bg-neutral-950 hover:dark:bg-neutral-800 border-none bg-neutral-50 cursor-pointer"
         >
           <Menu />
           Menu

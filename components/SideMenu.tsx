@@ -1,7 +1,7 @@
-import { TimePicker } from "./sideMenu/TimePicker";
-import BoatSelector from "./sideMenu/BoatSelector";
+import { TimePicker } from "./TimePicker";
+import BoatSelector from "./BoatSelector";
 import { Label } from "./ui/label";
-import SpeedVariables from "./sideMenu/SpeedVariables";
+import SpeedVariables from "./SpeedVariables";
 
 interface SidebarProps {
   selectedShip: string;
