@@ -4,7 +4,7 @@ import DarkBtn from "@/components/navBar/DarkBtn";
 import MapWrapper from "@/components/MapWrapper";
 import { SearchBar } from "@/components/navBar/SearchBar";
 import { SideMenuBtn } from "@/components/navBar/SideMenuBtn";
-import { LoginBtn } from "@/components/navBar/LoginBtn";
+import { LoginBtn } from "@/components/navBar/Connexion";
 
 export default function Home() {
   return (
