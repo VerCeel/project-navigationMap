@@ -8,18 +8,18 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Login } from "@/components/loginRegister/Login"
-import { Register } from "@/components/loginRegister/Register" // <-- Importer Register
-import { LogIn, User } from "lucide-react"
+import { Register } from "@/components/loginRegister/Register" 
+import { User } from "lucide-react"
 
 export function LoginBtn() {
-  // Gérer l'état pour savoir quel composant afficher
+
   const [view, setView] = useState<'login' | 'register'>('login')
 
   return (
     <Dialog onOpenChange={(open) => {
-        // Réinitialiser à la vue 'login' à chaque fermeture
+
         if (!open) {
-            setTimeout(() => setView('login'), 300) // Petit délai pour l'animation
+            setTimeout(() => setView('login'), 300) 
         }
     }}>
       <DialogTrigger asChild>
@@ -28,7 +28,7 @@ export function LoginBtn() {
         </Button>
       </DialogTrigger>
       <DialogContent className="">
-        {/* Affichage conditionnel basé sur l'état */}
+
         {view === 'login' ? (
           <Login onSwitchToRegister={() => setView('register')} />
         ) : (

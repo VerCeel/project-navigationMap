@@ -4,7 +4,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
+} from "../ui/select";
 
 interface BoatSelectorProps {
   selectedShip: string;
@@ -20,20 +20,18 @@ const BoatSelector: React.FC<BoatSelectorProps> = ({
       <Select value={selectedShip} onValueChange={setSelectedShip}>
         <SelectTrigger
           id="ship-select-trigger"
-          className="w-full bg-white dark:bg-neutral-900 cursor-pointer"
+          className="w-full bg-neutral-50 font-bold dark:bg-neutral-950 text-neutral-700 dark:text-neutral-200 cursor-pointer"
         >
-          {" "}
-          <SelectValue placeholder="Choisir un navire" />
+          <SelectValue placeholder="Select a boat" />
         </SelectTrigger>
         <SelectContent className="bg-neutral-50 dark:bg-neutral-900 text-neutral-700 dark:text-neutral-200 cursor-pointer">
-          {" "}
-          <SelectItem className="cursor-pointer" value="IMO1">
+          <SelectItem className="cursor-pointer font-bold" value="IMO1">
             IMO 1
           </SelectItem>
-          <SelectItem className="cursor-pointer" value="IMO2">
+          <SelectItem className="cursor-pointer font-bold" value="IMO2">
             IMO 2
           </SelectItem>
-          <SelectItem className="cursor-pointer" value="IMO3">
+          <SelectItem className="cursor-pointer font-bold" value="IMO3">
             IMO 3
           </SelectItem>
         </SelectContent>

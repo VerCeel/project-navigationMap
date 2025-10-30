@@ -20,12 +20,12 @@ interface RegisterProps extends React.ComponentProps<"div"> {
 
 export function Register({
   className,
-  onSwitchToLogin, // <-- Récupérer la prop
+  onSwitchToLogin, 
   ...props
 }: RegisterProps) {
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card className="overflow-hidden border-0 shadow-none"> {/* J'ai enlevé la bordure/ombre */}
+      <Card className="overflow-hidden border-0 shadow-none"> 
         <CardContent className="grid p-0 md:grid-cols-2">
           <form className="p-6 md:p-8">
             <FieldGroup>
@@ -76,12 +76,11 @@ export function Register({
               </Field>
               <FieldDescription className="text-center">
                 Already have an account?{" "}
-                {/* MODIFIÉ ICI */}
                 <a
                   href="#"
                   onClick={(e) => {
-                    e.preventDefault(); // Empêche le rechargement
-                    onSwitchToLogin(); // Appelle la fonction du parent
+                    e.preventDefault();
+                    onSwitchToLogin();
                   }}
                   className="font-medium underline-offset-4 hover:underline"
                 >

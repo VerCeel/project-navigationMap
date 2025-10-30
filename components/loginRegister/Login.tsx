@@ -20,12 +20,12 @@ interface LoginProps extends React.ComponentProps<"div"> {
 
 export function Login({
   className,
-  onSwitchToRegister, // <-- Récupérer la prop
+  onSwitchToRegister,
   ...props
 }: LoginProps) {
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card className="overflow-hidden border-0 shadow-none"> {/* J'ai enlevé la bordure/ombre pour mieux s'intégrer au Dialog */}
+      <Card className="overflow-hidden border-0 shadow-none">
         <CardContent className="grid p-0 md:grid-cols-2">
           <form className="p-6 md:p-8">
             <FieldGroup>

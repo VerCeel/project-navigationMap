@@ -4,20 +4,16 @@ import { useRef, useEffect, useState, useCallback } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useTheme } from "next-themes";
-import shipData from "./data/shipNavigationData.json";
-import { Spinner } from "./ui/spinner";
 
-interface ShipPoint {
-  lat: number;
-  lon: number;
-  speed: number;
-}
-
-const typedShipData: ShipPoint[] = shipData;
+import { ShipPoint } from "../lib/types"; 
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
-export default function Map() {
+interface MapProps {
+  shipData: ShipPoint[];
+}
+
+export default function Map({ shipData }: MapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const { theme } = useTheme();
@@ -30,30 +26,11 @@ export default function Map() {
   const [zoom, setZoom] = useState(4);
 
   const addDataToMap = useCallback((mapInstance: mapboxgl.Map) => {
-    console.log("Ajout des données sur la carte...");
 
-    if (mapInstance.getLayer("route-layer")) {
-      mapInstance.removeLayer("route-layer");
-    }
-    if (mapInstance.getSource("route-source")) {
-      mapInstance.removeSource("route-source");
-    }
-    if (mapInstance.getLayer("position-layer")) {
-      mapInstance.removeLayer("position-layer");
-    }
-    if (mapInstance.getSource("position-source")) {
-      mapInstance.removeSource("position-source");
-    }
-
-    const routeCoordinates = typedShipData.map((point) => [
+    const routeCoordinates = shipData.map((point) => [
       point.lon,
       point.lat,
     ]);
-
-    if (routeCoordinates.length === 0) {
-      console.warn("Aucune coordonnée à afficher.");
-      return;
-    }
 
     const lastPosition = routeCoordinates[routeCoordinates.length - 1];
 
@@ -121,12 +98,10 @@ export default function Map() {
     mapInstance.fitBounds(bounds, {
       padding: 50,
     });
-  }, []);
+  }, [shipData]);
 
   useEffect(() => {
     if (map.current || !mapContainer.current) return;
-
-    console.log("Initialisation de la carte...");
     let mapInstance: mapboxgl.Map | null = null;
 
     try {
@@ -141,10 +116,6 @@ export default function Map() {
       map.current = mapInstance;
 
       mapInstance.once("load", () => {
-        <div className="flex items-center gap-4">
-          <Spinner />
-        </div>;
-
         if (map.current) {
           addDataToMap(map.current);
         }
@@ -157,28 +128,16 @@ export default function Map() {
       mapInstance?.remove();
       map.current = null;
     };
-  }, [theme, lng, lat, zoom]);
+  }, [theme, lng, lat, zoom, addDataToMap]); 
 
   useEffect(() => {
     if (!map.current) {
-      console.log("Changement de thème ignoré: carte non prête.");
       return;
     }
-
-    console.log(`Changement de thème vers : ${theme}`);
     const newStyle = theme === "dark" ? darkMapStyle : lightMapStyle;
 
     map.current.setStyle(newStyle);
-
-    map.current.once("load", () => {
-      <div className="flex items-center gap-4">
-        <Spinner />
-      </div>;
-
-      if (map.current) {
-        addDataToMap(map.current);
-      }
-    });
+   
   }, [theme, addDataToMap]);
 
   return (
