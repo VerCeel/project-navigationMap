@@ -48,39 +48,37 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
     • departure_port_code (VARCHAR)
 
-    • arrival_port_code (VARCHAR) : Port d'arrivée (ex: "USNYC").
+    • arrival_port_code (VARCHAR)
 
-    • planned_departure_ts (TIMESTAMP) : Quand il est censé partir.
+    • planned_departure_ts (TIMESTAMP)
 
-    • planned_arrival_ts (TIMESTAMP) : Quand il est censé arriver.
+    • planned_arrival_ts (TIMESTAMP)
 
-    • actual_departure_ts (TIMESTAMP) : Quand il est vraiment parti (si on sait).
+    • actual_departure_ts (TIMESTAMP)
 
-    • actual_arrival_ts (TIMESTAMP) : Quand il est vraiment arrivé (si on sait).
+    • actual_arrival_ts (TIMESTAMP)
 
-    • route_constraints (JSONB) : C'est là qu'on met les trucs spéciaux ! (ex: { "max_wave_height": 5.0, "avoid_zones": [...] }).
+    • route_constraints (JSONB)
 
-    • created_at (TIMESTAMP) : Quand on a créé ce plan de route.
+    • created_at (TIMESTAMP)
 
-    • Table users / organizations (Pour l'accès en ligne)
+    • Table users / organizations
 
-    • user_id (INT, Clé primaire) : Numéro unique pour l'utilisateur.
+    • user_id (INT, Clé primaire)
 
-    • email (VARCHAR, Unique) : Son e-mail pour se connecter.
+    • email (VARCHAR, Unique)
 
-    • password_hash (VARCHAR) : Son mot de passe, mais bien crypté !
+    • password_hash (VARCHAR)
 
-    • organization_id (INT) : De quelle boîte il fait partie ?
+    • organization_id (INT)
 
-    • role (VARCHAR) : C'est un chef ou juste un invité ? (ex: "admin", "viewer").
+    • role (VARCHAR)
 
-    • created_at (TIMESTAMP) : Quand il s'est inscrit.
+    • created_at (TIMESTAMP)
 
-    • (Et bien sûr, d'autres tables pour gérer les boîtes, les permissions, etc.)
+    • Table api_credentials 
 
-    • Table api_credentials (Les clés secrètes)
-
-    • service_name (VARCHAR, Clé primaire) : C'est la clé de qui ? (ex: "GoodWeather", "AISProviderX").
+    • service_name (VARCHAR, Clé primaire)
 
     • api_key (VARCHAR, ENCRYPTED)
 
